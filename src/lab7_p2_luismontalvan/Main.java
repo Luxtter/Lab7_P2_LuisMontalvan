@@ -153,7 +153,15 @@ public class Main extends javax.swing.JFrame {
             new String [] {
                 "ID", "Name", "Category", "Price", "Aisle", "Bin"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -280,14 +288,41 @@ public class Main extends javax.swing.JFrame {
     private void jbtnCrearArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnCrearArchivoMouseClicked
         DefaultTableModel modelo
                     = (DefaultTableModel) jTable1.getModel();
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            for (int j = 0; j < modelo.getColumnCount(); j++) {
-                File archivo = null;
-            File archivo2 = null;
-            FileWriter fw = null;
-            BufferedWriter bw = null;
+        File archivo = null;
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        
+        
+        try {
+            archivo = new File("./datocsv.txt");
+            fw = new FileWriter(archivo);
+            bw = new BufferedWriter(fw);
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                for (int j = 0; j < modelo.getColumnCount(); j++) {
+                    if (i<modelo.getRowCount()-1) {
+                        bw.write((String) modelo.getValueAt(i, j)+",");
+                    }
+                }
+                bw.write("\n");
             }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try {
+            bw.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            bw.close();
+            fw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
+        
     }//GEN-LAST:event_jbtnCrearArchivoMouseClicked
 
     /**
