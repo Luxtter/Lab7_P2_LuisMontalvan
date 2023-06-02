@@ -125,8 +125,8 @@
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Menu Principal">
-                <Property name="tabTitle" type="java.lang.String" value="Menu Principal"/>
+              <JTabbedPaneConstraints tabName="Crear Archivo">
+                <Property name="tabTitle" type="java.lang.String" value="Crear Archivo"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -164,6 +164,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Exportar Datos"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jbtnCrearArchivoMouseClicked"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>

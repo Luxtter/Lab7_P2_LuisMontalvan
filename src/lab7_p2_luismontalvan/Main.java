@@ -126,6 +126,11 @@ public class Main extends javax.swing.JFrame {
         jTabbedPane1.addTab("Menu Principal", jPanel1);
 
         jbtnCrearArchivo.setText("Exportar Datos");
+        jbtnCrearArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtnCrearArchivoMouseClicked(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -174,7 +179,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(71, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Menu Principal", jPanel2);
+        jTabbedPane1.addTab("Crear Archivo", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -271,6 +276,19 @@ public class Main extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jbtnJsonMouseClicked
+
+    private void jbtnCrearArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnCrearArchivoMouseClicked
+        DefaultTableModel modelo
+                    = (DefaultTableModel) jTable1.getModel();
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            for (int j = 0; j < modelo.getColumnCount(); j++) {
+                File archivo = null;
+            File archivo2 = null;
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            }
+        }
+    }//GEN-LAST:event_jbtnCrearArchivoMouseClicked
 
     /**
      * @param args the command line arguments
