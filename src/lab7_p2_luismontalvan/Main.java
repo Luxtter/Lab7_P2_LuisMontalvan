@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,6 +30,7 @@ public class Main extends javax.swing.JFrame {
                     "ID", "Name", "Category", "Price","Ailse", "Bin"
                 }
         ));
+        jbtnJson.setEnabled(false);
         
     }
 
@@ -45,7 +47,7 @@ public class Main extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jbtnJson = new javax.swing.JButton();
         jbtnActualizarTabla = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
@@ -67,10 +69,18 @@ public class Main extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
-        jButton1.setText("Exportar Datos");
+        jbtnJson.setText("Exportar Datos");
 
         jbtnActualizarTabla.setText("Actualizar Tabla");
         jbtnActualizarTabla.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -84,14 +94,16 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(229, 229, 229)
-                        .addComponent(jbtnActualizarTabla)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addGap(30, 30, 30)
+                        .addComponent(jbtnJson)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbtnActualizarTabla))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(31, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,9 +112,9 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnJson, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Menu Principal", jPanel1);
@@ -147,7 +159,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addGap(229, 229, 229)
                         .addComponent(jButton4)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,7 +170,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Menu Principal", jPanel2);
@@ -178,27 +190,37 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnActualizarTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnActualizarTablaMouseClicked
+        
         File archivo = null;
-        FileReader canal = null;
-                   
-            //ruta relativa
+        DefaultTableModel model
+        = (DefaultTableModel) jTable2.getModel();
+        Object id,name,category,price,aisle,bin, linea;
+        
             Scanner sc = null;
+            Scanner pochita = null;
         try {
             archivo = new File("./data.txt");
             sc= new Scanner(archivo);
-            sc.useDelimiter(",");
             while (sc.hasNext()) {
-                System.out.println(sc.nextLine());
-                for (int i = 0; i < escuadrones.size(); i++) {
-                Object[] newrow = {escuadrones.get(i).getNombre(), escuadrones.get(i).getTipoE(), escuadrones.get(i).getLider()};
+            pochita = new Scanner(sc.nextLine());
+            pochita.useDelimiter(",");
+                id = pochita.next();
+                name = pochita.next();
+                category = pochita.next();
+                price = pochita.next();
+                aisle = pochita.next();
+                bin = pochita.next();
+                Object[] newrow = {id, name, category, price,aisle,bin};
                 model.addRow(newrow);
-                jtListarE.setModel(model);
+                jTable2.setModel(model);
             }
-            }
-        } catch (Exception e) {
+        } catch (Exception ex) {
         }
         sc.close();
-        
+        pochita.close();
+        jbtnActualizarTabla.setEnabled(false);
+        jbtnJson.setEnabled(true);
+    
     }//GEN-LAST:event_jbtnActualizarTablaMouseClicked
 
     /**
@@ -237,7 +259,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
@@ -248,5 +269,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JButton jbtnActualizarTabla;
+    private javax.swing.JButton jbtnJson;
     // End of variables declaration//GEN-END:variables
 }
