@@ -253,9 +253,12 @@ public class Main extends javax.swing.JFrame {
             bw = new BufferedWriter(fw);
             archivo2 = new File("./data.txt");
             sc= new Scanner(archivo2);
-            
+            int bandera = 0;
             while (sc.hasNext()) {
-            pochita = new Scanner(sc.nextLine());
+                if (bandera!=54) {
+                    
+                
+                pochita = new Scanner(sc.nextLine());
             pochita.useDelimiter(",");
             id = pochita.next();
                 name = pochita.next();
@@ -263,15 +266,32 @@ public class Main extends javax.swing.JFrame {
                 price = pochita.next();
                 aisle = pochita.next();
                 bin = pochita.next();
-            bw.write("{\"id\":"+id+", "+"\"name\":"+name+", "+"\"category\":"+category+", "+
+                bw.write("{\"id\":"+id+", "+"\"name\":"+name+", "+"\"category\":"+category+", "+
                     "\"price\":"+price+", "+"\"aisle\":"+aisle+", "+"\"bin\":"+bin+"},\n");
                 try {
                     bw.flush();
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
-        
-        }
+                bandera++;
+        }else{
+                 pochita = new Scanner(sc.nextLine());
+            pochita.useDelimiter(",");
+            id = pochita.next();
+                name = pochita.next();
+                category = pochita.next();
+                price = pochita.next();
+                aisle = pochita.next();
+                bin = pochita.next();
+                bw.write("{\"id\":"+id+", "+"\"name\":"+name+", "+"\"category\":"+category+", "+
+                    "\"price\":"+price+", "+"\"aisle\":"+aisle+", "+"\"bin\":"+bin+"}\n");
+                try {
+                    bw.flush();
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }   
+                }
+            }
             try {
                 bw.close();
                 fw.close();
@@ -299,9 +319,14 @@ public class Main extends javax.swing.JFrame {
             bw = new BufferedWriter(fw);
             for (int i = 0; i < modelo.getRowCount(); i++) {
                 for (int j = 0; j < modelo.getColumnCount(); j++) {
-                    if (i<modelo.getRowCount()-1) {
+                    if (modelo.getValueAt(i, j)!=null) {
+                       if (j<modelo.getColumnCount()-1) {
                         bw.write((String) modelo.getValueAt(i, j)+",");
+                    }else{
+                        bw.write((String) modelo.getValueAt(i, j));
+                    } 
                     }
+                    
                 }
                 bw.write("\n");
             }
