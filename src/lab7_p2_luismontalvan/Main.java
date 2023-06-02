@@ -5,8 +5,10 @@
 package lab7_p2_luismontalvan;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -50,8 +52,7 @@ public class Main extends javax.swing.JFrame {
         jbtnJson = new javax.swing.JButton();
         jbtnActualizarTabla = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jbtnCrearArchivo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -81,6 +82,11 @@ public class Main extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable2);
 
         jbtnJson.setText("Exportar Datos");
+        jbtnJson.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtnJsonMouseClicked(evt);
+            }
+        });
 
         jbtnActualizarTabla.setText("Actualizar Tabla");
         jbtnActualizarTabla.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -119,9 +125,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Menu Principal", jPanel1);
 
-        jButton3.setText("Exportar Datos");
-
-        jButton4.setText("Actualizar Tabla");
+        jbtnCrearArchivo.setText("Exportar Datos");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,9 +160,8 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(229, 229, 229)
-                        .addComponent(jButton4)))
+                        .addComponent(jbtnCrearArchivo)
+                        .addGap(344, 344, 344)))
                 .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -167,9 +170,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jbtnCrearArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(71, Short.MAX_VALUE))
         );
 
@@ -223,6 +224,54 @@ public class Main extends javax.swing.JFrame {
     
     }//GEN-LAST:event_jbtnActualizarTablaMouseClicked
 
+    private void jbtnJsonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnJsonMouseClicked
+        if(jbtnJson.isEnabled()){
+            File archivo = null;
+            File archivo2 = null;
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            Object id,name,category,price,aisle,bin, linea;
+        
+            Scanner sc = null;
+            Scanner pochita = null;
+        try {
+            archivo = new File("./datajson.txt");
+            fw = new FileWriter(archivo, false);
+            bw = new BufferedWriter(fw);
+            archivo2 = new File("./data.txt");
+            sc= new Scanner(archivo2);
+            
+            while (sc.hasNext()) {
+            pochita = new Scanner(sc.nextLine());
+            pochita.useDelimiter(",");
+            id = pochita.next();
+                name = pochita.next();
+                category = pochita.next();
+                price = pochita.next();
+                aisle = pochita.next();
+                bin = pochita.next();
+            bw.write("{\"id\":"+id+", "+"\"name\":"+name+", "+"\"category\":"+category+", "+
+                    "\"price\":"+price+", "+"\"aisle\":"+aisle+", "+"\"bin\":"+bin+"},\n");
+                try {
+                    bw.flush();
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
+        }
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        }catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jbtnJsonMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -259,8 +308,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -269,6 +316,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JButton jbtnActualizarTabla;
+    private javax.swing.JButton jbtnCrearArchivo;
     private javax.swing.JButton jbtnJson;
     // End of variables declaration//GEN-END:variables
 }
