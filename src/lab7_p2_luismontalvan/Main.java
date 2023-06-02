@@ -4,6 +4,14 @@
  */
 package lab7_p2_luismontalvan;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author luism
@@ -38,7 +46,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbtnActualizarTabla = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -64,7 +72,12 @@ public class Main extends javax.swing.JFrame {
 
         jButton1.setText("Exportar Datos");
 
-        jButton2.setText("Actualizar Tabla");
+        jbtnActualizarTabla.setText("Actualizar Tabla");
+        jbtnActualizarTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtnActualizarTablaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -77,7 +90,7 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(229, 229, 229)
-                        .addComponent(jButton2)))
+                        .addComponent(jbtnActualizarTabla)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -88,7 +101,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbtnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
@@ -164,6 +177,30 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbtnActualizarTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnActualizarTablaMouseClicked
+        File archivo = null;
+        FileReader canal = null;
+                   
+            //ruta relativa
+            Scanner sc = null;
+        try {
+            archivo = new File("./data.txt");
+            sc= new Scanner(archivo);
+            sc.useDelimiter(",");
+            while (sc.hasNext()) {
+                System.out.println(sc.nextLine());
+                for (int i = 0; i < escuadrones.size(); i++) {
+                Object[] newrow = {escuadrones.get(i).getNombre(), escuadrones.get(i).getTipoE(), escuadrones.get(i).getLider()};
+                model.addRow(newrow);
+                jtListarE.setModel(model);
+            }
+            }
+        } catch (Exception e) {
+        }
+        sc.close();
+        
+    }//GEN-LAST:event_jbtnActualizarTablaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -201,7 +238,6 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
@@ -211,5 +247,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JButton jbtnActualizarTabla;
     // End of variables declaration//GEN-END:variables
 }
